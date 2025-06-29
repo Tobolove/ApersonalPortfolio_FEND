@@ -213,16 +213,30 @@ const validateMessage = (message) => {
     return { valid: true, message: "" };
 };
 
-// Character counter
+
+
+// Changed this to meet rubic requirements
+const style = document.createElement('style');
+style.textContent = `
+    .error {
+        color: var(--error) !important;
+        font-weight: bold !important;
+    }
+`;
+document.head.appendChild(style);
+
+// Character counter using 'error' class as required by rubic
 contactMessage.addEventListener('input', () => {
     const currentLength = contactMessage.value.length;
     charactersLeft.textContent = `Characters: ${currentLength}/300`;
     
+    // cahnged this to use error class
+    if (currentLength > 300) {
+        charactersLeft.classList.add('error');
+    } else {
+        charactersLeft.classList.remove('error');
+    }
 });
-
-
-
-
 
 
 // Form submission validation
@@ -270,6 +284,12 @@ resetButton.addEventListener("click", () => {
     contactMessage.value = '';
     charactersLeft.textContent = 'Characters: 0/300';
     
+    // Remove error class when resetting
+    charactersLeft.classList.remove('error');
+    
+    // Clear error messages
+    emailError.textContent = '';
+    emailError.style.display = 'none';
     messageError.textContent = '';
     messageError.style.display = 'none';
 });
